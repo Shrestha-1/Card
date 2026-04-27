@@ -1,0 +1,338 @@
+{
+    "profiles": [
+        {
+            "id": "SP-7X91-24",
+            "name": "Suramya Pandiya",
+            "title": "Sura | Digital Creator | Psychology Intern",
+            "image": "https://peoplequora.com/wp-content/uploads/2026/02/Suramya-Pandiya.jpg",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/suramyapandiya" },
+                { "name": "X (Twitter)", "icon": "fab fa-twitter", "url": "https://twitter.com/SuramyaPandiya_" },
+                { "name": "Snapchat", "icon": "fab fa-snapchat", "url": "https://snapchat.com/add/suramyapandiya" }
+            ],
+            "personalInfo": {
+                "fullName": "Suramya Pandiya",
+                "nickName": "Sura",
+                "dob": "6 December 2003",
+                "age": "22 Years (2025)",
+                "birthplace": "Madhya Pradesh, India",
+                "residence": "Delhi NCR",
+                "nationality": "Indian",
+                "religion": "Hinduism",
+                "zodiac": "Sagittarius",
+                "occupation": "Digital Creator, Influencer"
+            },
+            "physicalStats": {
+                "height": "5'4\" (163 cm)",
+                "weight": "58 kg",
+                "hairColor": "Black",
+                "eyeColor": "Black",
+                "skinTone": "Fair",
+                "measurements": "34-27.5-38.5 inches"
+            },
+            "familyEducation": {
+                "parents": "Not Disclosed",
+                "siblings": "Twin Sister – Lavanya Pandiya",
+                "background": "Upper middle-class",
+                "school": "Delhi Public School, MP",
+                "college": "Mithibai College, Mumbai",
+                "qualification": "B.Sc. Psychology"
+            },
+            "career": {
+                "profession": "Digital Creator, Influencer, Psychology Intern",
+                "contentStyle": "Trend reels, styling, dance, lifestyle",
+                "internship": "Mind Peace Hospital",
+                "netWorth": "₹15–25 Lakhs",
+                "incomeSource": "Brand Collaborations"
+            },
+            "bio": "Suramya Pandiya, also known as 'Sura', is a digital content creator, influencer, and psychology intern. She creates engaging lifestyle content, including trend reels, styling videos, and dance videos.",
+            "gallery": [
+                { "type": "image", "src": "https://peoplequora.com/wp-content/uploads/2026/02/Suramya-Pandiya1-819x1024.jpg" },
+                { "type": "image", "src": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Suramya+Photo+2" },
+                { "type": "video", "src": "https://www.w3schools.com/html/mov_bbb.mp4" }
+            ]
+        },
+        {
+            "id": "LP-8X92-35",
+            "name": "Lavanya Pandiya",
+            "title": "Lavanya | Fashion Influencer | Model",
+            "image": "https://peoplequora.com/wp-content/uploads/2026/03/Lavanya-Pandiya1.jpg",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/lavanyapandiya" },
+                { "name": "Threads", "icon": "fab fa-twitter", "url": "https://threads.net/@lavanyapandiya" },
+                { "name": "Snapchat", "icon": "fab fa-snapchat", "url": "https://snapchat.com/add/lavanyapan" }
+            ],
+            "personalInfo": {
+                "fullName": "Lavanya Pandiya",
+                "nickName": "Lavu",
+                "dob": "6 December 2003",
+                "age": "22 Years (2025)",
+                "birthplace": "Madhya Pradesh, India",
+                "residence": "Pondicherry, India",
+                "nationality": "Indian",
+                "religion": "Hinduism",
+                "zodiac": "Sagittarius",
+                "occupation": "Digital Creator, Fashion Influencer, Model"
+            },
+            "physicalStats": {
+                "height": "5'4\" (163 cm)",
+                "weight": "57 kg",
+                "hairColor": "Black",
+                "eyeColor": "Black",
+                "skinTone": "Fair",
+                "measurements": "34.5-27.5-38 inches"
+            },
+            "familyEducation": {
+                "parents": "Not publicly disclosed",
+                "siblings": "Twin Sister – Suramya Pandiya",
+                "background": "Upper middle-class Indian family",
+                "school": "Delhi Public School, Madhya Pradesh",
+                "college": "National Institute of Fashion Technology (NIFT), Chennai",
+                "qualification": "Graduate"
+            },
+            "career": {
+                "profession": "Digital Creator, Fashion Influencer, Model",
+                "contentStyle": "Fashion outfits, lifestyle posts, modeling photoshoots, reels",
+                "internship": "N/A",
+                "netWorth": "₹20–40 Lakhs",
+                "incomeSource": "Brand collaborations, sponsored posts, modeling"
+            },
+            "bio": "Lavanya Pandiya is an Indian fashion and lifestyle influencer with a glamorous social media presence. She is a graduate of the National Institute of Fashion Technology (NIFT), Chennai.",
+            "gallery": [
+                { "type": "image", "src": "https://peoplequora.com/wp-content/uploads/2026/03/Lavanya-Pandiya.jpg" },
+                { "type": "image", "src": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Lavanya+Photo+2" },
+                { "type": "image", "src": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Lavanya+Photo+3" },
+                { "type": "video", "src": "https://www.w3schools.com/html/mov_bbb.mp4" }
+            ]
+        },
+        {
+            "id": "NB-9X93-46",
+            "name": "Natasha Badiyi",
+            "title": "Natasha | Filmmaker | Creative Director",
+            "image": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Natasha+Badiyi",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/natashabadiyi" }
+            ],
+            "personalInfo": {
+                "fullName": "Natasha Badiyi",
+                "nickName": "Natasha",
+                "dob": "Not Disclosed",
+                "age": "Not Disclosed",
+                "birthplace": "Brooklyn, New York",
+                "residence": "Brooklyn, New York",
+                "nationality": "American",
+                "religion": "Not Disclosed",
+                "zodiac": "Not Disclosed",
+                "occupation": "Filmmaker, Producer, Creative Director"
+            },
+            "physicalStats": {
+                "height": "Not Disclosed",
+                "weight": "Not Disclosed",
+                "hairColor": "Not Disclosed",
+                "eyeColor": "Not Disclosed",
+                "skinTone": "Not Disclosed",
+                "measurements": "Not Disclosed"
+            },
+            "familyEducation": {
+                "parents": "Not Disclosed",
+                "siblings": "Alexis Badiyi",
+                "background": "Creative family",
+                "school": "Not Disclosed",
+                "college": "Not Disclosed",
+                "qualification": "Not Disclosed"
+            },
+            "career": {
+                "profession": "Filmmaker, Producer",
+                "contentStyle": "Film, storytelling, creative direction",
+                "internship": "N/A",
+                "netWorth": "Not Disclosed",
+                "incomeSource": "Film production, brand collaborations"
+            },
+            "bio": "Natasha Badiyi is a Brooklyn-based creative with a vision in styling, production, and evocative storytelling. She runs GEMSUN with her sister Alexis and creates meaningful film content [citation:1].",
+            "gallery": []
+        },
+        {
+            "id": "AJ-0X04-57",
+            "name": "Anjali Joel",
+            "title": "Anjali | Insta Reel Influencer",
+            "image": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Anjali+Joel",
+            "socialLinks": [],
+            "personalInfo": {
+                "fullName": "Anjali Joel",
+                "nickName": "Anjali",
+                "dob": "Not Disclosed",
+                "age": "Not Disclosed",
+                "birthplace": "Not Disclosed",
+                "residence": "Not Disclosed",
+                "nationality": "Not Disclosed",
+                "religion": "Not Disclosed",
+                "zodiac": "Not Disclosed",
+                "occupation": "Instagram Influencer, AI Character"
+            },
+            "physicalStats": {
+                "height": "Not Disclosed",
+                "weight": "Not Disclosed",
+                "hairColor": "Not Disclosed",
+                "eyeColor": "Not Disclosed",
+                "skinTone": "Not Disclosed",
+                "measurements": "36-28-38 inches"
+            },
+            "familyEducation": {
+                "parents": "Not Disclosed",
+                "siblings": "Not Disclosed",
+                "background": "Not Disclosed",
+                "school": "Not Disclosed",
+                "college": "Not Disclosed",
+                "qualification": "Not Disclosed"
+            },
+            "career": {
+                "profession": "Instagram Influencer, AI Character",
+                "contentStyle": "Reels, lifestyle, roleplay",
+                "internship": "N/A",
+                "netWorth": "Not Disclosed",
+                "incomeSource": "Content creation"
+            },
+            "bio": "Anjali Joel is known as an Insta Reel influencer character on Babble AI [citation:7].",
+            "gallery": []
+        },
+        {
+            "id": "NJ-1X15-68",
+            "name": "Norajoy",
+            "title": "Norajoy | Mommy Style Influencer",
+            "image": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Norajoy",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/norajoy_official" },
+                { "name": "TikTok", "icon": "fab fa-tiktok", "url": "https://tiktok.com/@norajoy_official" }
+            ],
+            "personalInfo": {
+                "fullName": "Norajoy",
+                "nickName": "Norajoy",
+                "dob": "Not Disclosed",
+                "age": "Not Disclosed",
+                "birthplace": "South Korea",
+                "residence": "Not Disclosed",
+                "nationality": "South Korean",
+                "religion": "Not Disclosed",
+                "zodiac": "Not Disclosed",
+                "occupation": "Digital Creator, Influencer, Model"
+            },
+            "physicalStats": {
+                "height": "Not Disclosed",
+                "weight": "Not Disclosed",
+                "hairColor": "Black",
+                "eyeColor": "Not Disclosed",
+                "skinTone": "Fair",
+                "measurements": "Not Disclosed"
+            },
+            "familyEducation": {
+                "parents": "Not Disclosed",
+                "siblings": "Not Disclosed",
+                "background": "Not Disclosed",
+                "school": "Not Disclosed",
+                "college": "Not Disclosed",
+                "qualification": "Not Disclosed"
+            },
+            "career": {
+                "profession": "Digital Creator, Influencer",
+                "contentStyle": "Mommy style, fashion, lifestyle, reels",
+                "internship": "N/A",
+                "netWorth": "Not Disclosed",
+                "incomeSource": "Brand collaborations, sponsored posts"
+            },
+            "bio": "Norajoy is a South Korean influencer with over 3 million followers on TikTok. Known for her unique 'mommy style' fashion content that blends mature elegance with modern trends [citation:3][citation:8].",
+            "gallery": []
+        },
+        {
+            "id": "NA-2X26-79",
+            "name": "Naina Avtr",
+            "title": "Naina | India's First AI Influencer",
+            "image": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Naina+Avtr",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/naina.avtr" }
+            ],
+            "personalInfo": {
+                "fullName": "Naina Avtr",
+                "nickName": "Naina",
+                "dob": "Not Disclosed",
+                "age": "22 Years",
+                "birthplace": "Jhansi, India (Virtual)",
+                "residence": "Mumbai (Virtual)",
+                "nationality": "Indian",
+                "religion": "Not Disclosed",
+                "zodiac": "Not Disclosed",
+                "occupation": "AI Influencer, Actress, Podcaster"
+            },
+            "physicalStats": {
+                "height": "Not Disclosed",
+                "weight": "Not Disclosed",
+                "hairColor": "Not Disclosed",
+                "eyeColor": "Not Disclosed",
+                "skinTone": "Not Disclosed",
+                "measurements": "Not Disclosed"
+            },
+            "familyEducation": {
+                "parents": "Created by Avtr Meta Labs",
+                "siblings": "None",
+                "background": "AI Creation",
+                "school": "Not Applicable",
+                "college": "Not Applicable",
+                "qualification": "AI Generated"
+            },
+            "career": {
+                "profession": "AI Influencer, Actress, Podcaster",
+                "contentStyle": "Fashion, fitness, lifestyle, dance, travel",
+                "internship": "N/A",
+                "netWorth": "Not Disclosed",
+                "incomeSource": "Brand collaborations (Nykaa, Puma, Pepsi)"
+            },
+            "bio": "Naina Avtr is India's first AI-generated influencer, created by Avtr Meta Labs. She has over 376k Instagram followers, hosts 'The nAIna Show' podcast, and made her acting debut in the web series 'Truth & Lies' [citation:4][citation:9].",
+            "gallery": []
+        },
+        {
+            "id": "SS-3X37-80",
+            "name": "Sinjini Sengupta",
+            "title": "Sinjini | Content Creator",
+            "image": "https://placehold.co/600x600/1a1a1a/c9a53b?text=Sinjini+Sengupta",
+            "socialLinks": [
+                { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://instagram.com/sinjini.sg" }
+            ],
+            "personalInfo": {
+                "fullName": "Sinjini Sengupta",
+                "nickName": "Sinjini",
+                "dob": "Not Disclosed",
+                "age": "Not Disclosed",
+                "birthplace": "Not Disclosed",
+                "residence": "Kolkata, West Bengal",
+                "nationality": "Indian",
+                "religion": "Not Disclosed",
+                "zodiac": "Not Disclosed",
+                "occupation": "Digital Creator"
+            },
+            "physicalStats": {
+                "height": "Not Disclosed",
+                "weight": "Not Disclosed",
+                "hairColor": "Not Disclosed",
+                "eyeColor": "Not Disclosed",
+                "skinTone": "Not Disclosed",
+                "measurements": "Not Disclosed"
+            },
+            "familyEducation": {
+                "parents": "Not Disclosed",
+                "siblings": "Not Disclosed",
+                "background": "Not Disclosed",
+                "school": "Not Disclosed",
+                "college": "Not Disclosed",
+                "qualification": "Not Disclosed"
+            },
+            "career": {
+                "profession": "Digital Creator",
+                "contentStyle": "Exploring with brands, Lifestyle",
+                "internship": "N/A",
+                "netWorth": "Not Disclosed",
+                "incomeSource": "Brand collaborations"
+            },
+            "bio": "Sinjini Sengupta is a Kolkata-based Instagram creator with approximately 1.6K followers. Her content focuses on brand collaborations and lifestyle exploration [citation:5].",
+            "gallery": []
+        }
+    ]
+}
