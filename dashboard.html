@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C8A951;
+            --gold-light: #E4C97A;
+            --gold-dim: rgba(200,169,81,0.1);
+            --gold-border: rgba(200,169,81,0.2);
+            --bg: #0A0A0B;
+            --surface: #111114;
+            --surface2: #16161A;
+            --surface3: #1C1C22;
+            --border: #222228;
+            --border2: #2E2E38;
+            --text: #F0F0F4;
+            --text2: #8A8A9A;
+            --text3: #42424E;
+            --red: #EF4444;
+            --green: #22C55E;
+            --nav-w: 230px;
+            --radius: 12px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { height:100%; }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ─── SIDEBAR ─────────────────────────── */
+        .sidebar {
+            width: var(--nav-w);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 22px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-svg { width: 32px; height: 32px; flex-shrink: 0; }
+
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.2px;
+        }
+
+        .logo-sub {
+            font-size: 0.6rem;
+            color: var(--text3);
+            letter-spacing: 0.3px;
+            margin-top: 1px;
+        }
+
+        .nav-group { padding: 16px 0 8px; }
+
+        .nav-group-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--text3);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 0 20px 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text2);
+            border-radius: 0;
+            transition: all 0.15s;
+            border-left: 2px solid transparent;
+            margin: 1px 0;
+            user-select: none;
+        }
+
+        .nav-item svg { width:16px; height:16px; flex-shrink:0; opacity:0.7; }
+
+        .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+
+        .nav-item.active {
+            color: var(--gold);
+            background: var(--gold-dim);
+            border-left-color: var(--gold);
+        }
+
+        .nav-item.active svg { opacity:1; }
+
+        .nav-badge {
+            margin-left: auto;
+            font-size: 0.6rem;
+            font-weight: 600;
+            background: var(--surface3);
+            color: var(--text2);
+            padding: 2px 7px;
+            border-radius: 20px;
+            border: 1px solid var(--border2);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px;
+            background: transparent;
+            border: 1px solid var(--border2);
+            border-radius: 9px;
+            color: var(--text2);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover { border-color: rgba(239,68,68,0.4); color: #F87171; background: rgba(239,68,68,0.05); }
+        .btn-logout svg { width:14px; height:14px; }
+
+        /* ─── MAIN ─────────────────────────── */
+        .main {
+            margin-left: var(--nav-w);
+            flex: 1;
+            padding: 32px;
+            position: relative;
+        }
+
+        /* subtle top ambient */
+        .main::before {
+            content:'';
+            position:fixed;
+            top:-100px; left:50%;
+            transform:translateX(-50%);
+            width:800px; height:400px;
+            background:radial-gradient(ellipse,rgba(200,169,81,0.04) 0%,transparent 70%);
+            pointer-events:none; z-index:0;
+        }
+
+        /* ─── VIEWS ─────────────────────────── */
+        .view { display:none; position:relative; z-index:1; }
+        .view.active { display:block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ─── PAGE HEADER ─────────────────────────── */
+        .page-hd {
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            margin-bottom:24px;
+        }
+
+        .page-title {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:1.5rem;
+            font-weight:700;
+            color:var(--text);
+            letter-spacing:-0.3px;
+        }
+
+        .page-desc {
+            font-size:0.78rem;
+            color:var(--text2);
+            margin-top:3px;
+        }
+
+        /* ─── FILTER BAR ─────────────────────────── */
+        .filter-bar {
+            display:flex;
+            gap:10px;
+            margin-bottom:24px;
+        }
+
+        .search-wrap {
+            flex:1;
+            position:relative;
+        }
+
+        .search-icon {
+            position:absolute;
+            left:13px; top:50%;
+            transform:translateY(-50%);
+            color:var(--text3);
+            pointer-events:none;
+            width:15px; height:15px;
+        }
+
+        .filter-input {
+            width:100%;
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:10px 14px 10px 38px;
+            color:var(--text);
+            font-family:'Inter',sans-serif;
+            font-size:0.83rem;
+            outline:none;
+            transition:border-color 0.2s;
+        }
+
+        .filter-input:focus { border-color:var(--gold); }
+        .filter-input::placeholder { color:var(--text3); }
+
+        /* ─── PROFILE GRID ─────────────────────────── */
+        .profile-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+            gap:14px;
+        }
+
+        .profile-card {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:20px 16px 18px;
+            cursor:pointer;
+            text-align:center;
+            transition:all 0.25s cubic-bezier(0.16,1,0.3,1);
+            position:relative;
+            overflow:hidden;
+            animation:cardIn 0.4s ease both;
+        }
+
+        @keyframes cardIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+        .profile-card::after {
+            content:'';
+            position:absolute;
+            inset:-1px;
+            border-radius:var(--radius);
+            background:linear-gradient(135deg,rgba(200,169,81,0.12),transparent 60%);
+            opacity:0;
+            transition:opacity 0.25s;
+            pointer-events:none;
+        }
+
+        .profile-card:hover::after { opacity:1; }
+
+        .profile-card:hover {
+            border-color:var(--gold-border);
+            transform:translateY(-4px);
+            box-shadow:0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px var(--gold-border);
+        }
+
+        .p-avatar {
+            width:72px; height:72px;
+            border-radius:50%;
+            margin:0 auto 14px;
+            overflow:hidden;
+            background:var(--surface2);
+            border:2px solid var(--border2);
+            transition:border-color 0.25s;
+            position:relative;
+        }
+
+        .profile-card:hover .p-avatar { border-color:var(--gold); }
+        .p-avatar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+        .profile-card:hover .p-avatar img { transform:scale(1.07); }
+
+        .p-id {
+            font-size:0.58rem;
+            color:var(--text3);
+            letter-spacing:1px;
+            margin-bottom:5px;
+            font-weight:500;
+        }
+
+        .p-name {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:0.92rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:4px;
+            letter-spacing:-0.1px;
+        }
+
+        .p-role {
+            font-size:0.7rem;
+            color:var(--text2);
+        }
+
+        .p-arrow {
+            margin-top:12px;
+            font-size:0.68rem;
+            color:var(--gold);
+            opacity:0;
+            transform:translateY(4px);
+            transition:all 0.2s;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:5px;
+        }
+
+        .p-arrow svg { width:12px; height:12px; }
+        .profile-card:hover .p-arrow { opacity:1; transform:translateY(0); }
+
+        .grid-empty {
+            grid-column:1/-1;
+            text-align:center;
+            padding:60px;
+            color:var(--text3);
+            font-size:0.82rem;
+        }
+
+        /* ─── DETAIL VIEW ─────────────────────────── */
+        .back-btn {
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:8px;
+            padding:8px 14px;
+            color:var(--text2);
+            font-family:'Inter',sans-serif;
+            font-size:0.78rem;
+            font-weight:500;
+            cursor:pointer;
+            transition:all 0.2s;
+            margin-bottom:22px;
+        }
+
+        .back-btn:hover { border-color:var(--border2); color:var(--text); }
+        .back-btn svg { width:14px; height:14px; }
+
+        .detail-grid {
+            display:grid;
+            grid-template-columns:280px 1fr;
+            gap:16px;
+            align-items:start;
+        }
+
+        @media(max-width:900px){ .detail-grid{grid-template-columns:1fr;} }
+
+        .detail-left { display:flex; flex-direction:column; gap:14px; }
+        .detail-right { display:flex; flex-direction:column; gap:14px; }
+
+        /* Photo card */
+        .photo-card {
+            border-radius:var(--radius);
+            overflow:hidden;
+            background:var(--surface2);
+            border:1px solid var(--border);
+            aspect-ratio:3/4;
+            position:relative;
+        }
+
+        .photo-card img {
+            width:100%; height:100%;
+            object-fit:cover; display:block;
+            transition:transform 0.5s;
+        }
+
+        .photo-card:hover img { transform:scale(1.03); }
+
+        .photo-overlay {
+            position:absolute; bottom:0; left:0; right:0;
+            background:linear-gradient(transparent,rgba(10,10,11,0.92));
+            padding:28px 16px 16px;
+        }
+
+        .photo-name {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:1.2rem;
+            font-weight:800;
+            color:#fff;
+            letter-spacing:-0.2px;
+            line-height:1.2;
+        }
+
+        .photo-sub {
+            font-size:0.68rem;
+            color:rgba(255,255,255,0.45);
+            margin-top:4px;
+        }
+
+        /* Box */
+        .box {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:18px;
+        }
+
+        .box-title {
+            font-size:0.65rem;
+            font-weight:600;
+            color:var(--text2);
+            letter-spacing:0.6px;
+            text-transform:uppercase;
+            margin-bottom:14px;
+            padding-bottom:10px;
+            border-bottom:1px solid var(--border);
+            display:flex;
+            align-items:center;
+            gap:7px;
+        }
+
+        .box-title svg { width:13px; height:13px; color:var(--gold); flex-shrink:0; }
+
+        .info-table { width:100%; }
+
+        .info-row {
+            display:flex;
+            align-items:flex-start;
+            padding:7px 0;
+            border-bottom:1px solid rgba(255,255,255,0.03);
+            font-size:0.78rem;
+        }
+
+        .info-row:last-child { border-bottom:none; }
+
+        .info-k {
+            width:130px;
+            min-width:130px;
+            color:var(--text2);
+            font-size:0.72rem;
+        }
+
+        .info-v { color:var(--text); flex:1; }
+
+        .info-grid-2 {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:0 20px;
+        }
+
+        @media(max-width:620px){ .info-grid-2{grid-template-columns:1fr;} }
+
+        /* Two boxes side by side */
+        .two-boxes {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:14px;
+        }
+
+        @media(max-width:620px){ .two-boxes{grid-template-columns:1fr;} }
+
+        /* Social links */
+        .social-wrap { display:flex; flex-wrap:wrap; gap:8px; }
+
+        .social-btn {
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            background:var(--surface2);
+            border:1px solid var(--border2);
+            border-radius:8px;
+            padding:7px 13px;
+            text-decoration:none;
+            color:var(--text2);
+            font-size:0.74rem;
+            font-weight:500;
+            transition:all 0.2s;
+        }
+
+        .social-btn svg { width:14px; height:14px; }
+        .social-btn:hover { border-color:var(--gold-border); color:var(--gold); transform:translateY(-1px); }
+
+        /* ─── SEARCH ONLINE VIEW ─────────────────────────── */
+        .search-page-wrap { max-width:720px; }
+
+        .search-hero {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:16px;
+            padding:28px;
+            margin-bottom:20px;
+        }
+
+        .search-hero-label {
+            font-size:0.65rem;
+            font-weight:600;
+            color:var(--text3);
+            letter-spacing:0.8px;
+            text-transform:uppercase;
+            margin-bottom:6px;
+        }
+
+        .search-hero-title {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:1.1rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:4px;
+        }
+
+        .search-hero-desc {
+            font-size:0.78rem;
+            color:var(--text2);
+            margin-bottom:18px;
+        }
+
+        .search-row {
+            display:flex;
+            gap:10px;
+        }
+
+        .search-main-input {
+            flex:1;
+            background:var(--surface2);
+            border:1px solid var(--border2);
+            border-radius:10px;
+            padding:12px 16px;
+            color:var(--text);
+            font-family:'Inter',sans-serif;
+            font-size:0.875rem;
+            outline:none;
+            transition:border-color 0.2s;
+        }
+
+        .search-main-input:focus { border-color:var(--gold); }
+        .search-main-input::placeholder { color:var(--text3); }
+
+        .search-main-btn {
+            padding:12px 22px;
+            background:var(--gold);
+            border:none;
+            border-radius:10px;
+            color:#0A0A0B;
+            font-family:'Space Grotesk',sans-serif;
+            font-size:0.875rem;
+            font-weight:700;
+            cursor:pointer;
+            transition:all 0.2s;
+            white-space:nowrap;
+        }
+
+        .search-main-btn:hover { background:var(--gold-light); transform:translateY(-1px); }
+
+        /* Quick profiles */
+        .quick-label {
+            font-size:0.65rem;
+            font-weight:600;
+            color:var(--text3);
+            letter-spacing:0.5px;
+            text-transform:uppercase;
+            margin-bottom:10px;
+        }
+
+        .quick-chips {
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+            margin-bottom:22px;
+        }
+
+        .quick-chip {
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:30px;
+            padding:6px 13px;
+            font-size:0.74rem;
+            color:var(--text2);
+            cursor:pointer;
+            transition:all 0.2s;
+        }
+
+        .quick-chip:hover { border-color:var(--gold-border); color:var(--gold); }
+
+        .quick-chip-avatar {
+            width:20px; height:20px; border-radius:50%;
+            overflow:hidden; background:var(--surface2);
+        }
+
+        .quick-chip-avatar img { width:100%; height:100%; object-fit:cover; }
+
+        /* Results */
+        .results-section { }
+
+        .results-title {
+            font-size:0.65rem;
+            font-weight:600;
+            color:var(--text3);
+            letter-spacing:0.8px;
+            text-transform:uppercase;
+            margin-bottom:12px;
+        }
+
+        .results-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
+        }
+
+        @media(max-width:580px){ .results-grid{grid-template-columns:1fr;} }
+
+        .result-card {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:11px;
+            padding:16px;
+            text-decoration:none;
+            display:block;
+            transition:all 0.2s;
+            animation:cardIn 0.3s ease both;
+        }
+
+        .result-card:hover { border-color:var(--gold-border); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.25); }
+
+        .result-platform {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:8px;
+        }
+
+        .platform-icon {
+            width:28px; height:28px;
+            border-radius:7px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:0.85rem;
+            flex-shrink:0;
+        }
+
+        .platform-name {
+            font-weight:600;
+            font-size:0.8rem;
+            color:var(--text);
+        }
+
+        .result-desc {
+            font-size:0.72rem;
+            color:var(--text2);
+            line-height:1.6;
+        }
+
+        .result-cta {
+            margin-top:10px;
+            font-size:0.7rem;
+            font-weight:600;
+            color:var(--gold);
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+
+        .result-cta svg { width:11px; height:11px; }
+
+        .empty-search {
+            text-align:center;
+            padding:40px;
+            color:var(--text3);
+            font-size:0.82rem;
+            grid-column:1/-1;
+        }
+
+        /* Gallery */
+        .gallery-wrap {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
+            gap:8px;
+        }
+
+        .gal-item {
+            aspect-ratio:1;
+            background:var(--surface2);
+            border-radius:8px;
+            overflow:hidden;
+            cursor:pointer;
+            border:1px solid var(--border);
+            position:relative;
+            transition:all 0.2s;
+        }
+
+        .gal-item:hover { border-color:var(--gold-border); transform:scale(1.04); }
+        .gal-item img,.gal-item video { width:100%; height:100%; object-fit:cover; display:block; }
+
+        .gal-play {
+            position:absolute; inset:0;
+            display:flex; align-items:center; justify-content:center;
+            background:rgba(0,0,0,0.3);
+            color:#fff;
+        }
+
+        .gal-play svg { width:22px; height:22px; }
+
+        .bio-text { font-size:0.82rem; color:var(--text2); line-height:1.85; }
+
+        .no-data { font-size:0.75rem; color:var(--text3); text-align:center; padding:16px 0; }
+
+        /* ─── SETTINGS VIEW ─────────────────────────── */
+        .settings-wrap { max-width:540px; }
+
+        .setting-block {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            margin-bottom:14px;
+            overflow:hidden;
+        }
+
+        .setting-block-title {
+            padding:14px 18px;
+            border-bottom:1px solid var(--border);
+            font-size:0.72rem;
+            font-weight:600;
+            color:var(--text2);
+            letter-spacing:0.5px;
+            text-transform:uppercase;
+        }
+
+        .setting-row {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:13px 18px;
+            border-bottom:1px solid rgba(255,255,255,0.03);
+            font-size:0.82rem;
+        }
+
+        .setting-row:last-child { border-bottom:none; }
+        .setting-row-label { color:var(--text2); font-size:0.78rem; }
+        .setting-row-value { color:var(--text); font-weight:500; }
+        .setting-tag {
+            font-size:0.65rem;
+            font-weight:600;
+            padding:3px 9px;
+            border-radius:20px;
+            background:rgba(34,197,94,0.1);
+            color:#4ADE80;
+            border:1px solid rgba(34,197,94,0.2);
+        }
+
+        /* ─── MODAL ─────────────────────────── */
+        .modal {
+            display:none;
+            position:fixed; inset:0;
+            background:rgba(0,0,0,0.94);
+            z-index:9999;
+            justify-content:center; align-items:center;
+            cursor:zoom-out;
+        }
+
+        .modal.open { display:flex; animation:fadeIn 0.2s ease; }
+
+        .modal-box {
+            position:relative;
+            max-width:90vw; max-height:90vh;
+            cursor:default;
+        }
+
+        .modal-box img, .modal-box video {
+            max-width:90vw; max-height:88vh;
+            object-fit:contain; border-radius:10px; display:block;
+        }
+
+        .modal-x {
+            position:absolute; top:-40px; right:0;
+            background:none; border:none;
+            color:rgba(255,255,255,0.6);
+            cursor:pointer; transition:color 0.2s;
+            display:flex; align-items:center;
+        }
+
+        .modal-x:hover { color:#fff; }
+        .modal-x svg { width:22px; height:22px; }
+
+        /* Mobile toggle */
+        .mob-toggle {
+            display:none;
+            position:fixed; top:14px; left:14px; z-index:300;
+            width:38px; height:38px;
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:9px; align-items:center; justify-content:center;
+            cursor:pointer; color:var(--text2);
+        }
+
+        .mob-toggle svg { width:18px; height:18px; }
+
+        @media(max-width:768px){
+            .sidebar { transform:translateX(-100%); }
+            .sidebar.open { transform:translateX(0); }
+            .main { margin-left:0; padding:16px; padding-top:60px; }
+            .mob-toggle { display:flex; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="mob-toggle" id="mobToggle" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <!-- Custom Card System Icon -->
+        <svg class="logo-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg1" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#E4C97A"/>
+                    <stop offset="100%" stop-color="#A07830"/>
+                </linearGradient>
+            </defs>
+            <rect x="2" y="7" width="28" height="18" rx="4" fill="#1A1810" stroke="url(#lg1)" stroke-width="1.2"/>
+            <rect x="2" y="11" width="28" height="4" fill="url(#lg1)" opacity="0.2"/>
+            <circle cx="10" cy="20" r="3.5" fill="none" stroke="url(#lg1)" stroke-width="1.1"/>
+            <circle cx="10" cy="19" r="1.2" fill="url(#lg1)" opacity="0.7"/>
+            <path d="M6.5 23c0-2 1.6-2.8 3.5-2.8s3.5.8 3.5 2.8" stroke="url(#lg1)" stroke-width="1.1" stroke-linecap="round" opacity="0.65"/>
+            <rect x="16" y="17.5" width="10" height="1.5" rx="0.75" fill="url(#lg1)" opacity="0.75"/>
+            <rect x="16" y="20.5" width="7" height="1.5" rx="0.75" fill="url(#lg1)" opacity="0.4"/>
+            <rect x="22" y="8.5" width="5" height="3.5" rx="1" fill="url(#lg1)" opacity="0.25" stroke="url(#lg1)" stroke-width="0.7"/>
+        </svg>
+        <div>
+            <div class="logo-text">Card System</div>
+            <div class="logo-sub">Personnel Registry</div>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <div class="nav-group-label">Menu</div>
+        <div class="nav-item active" onclick="nav('profiles',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Profiles
+            <span class="nav-badge" id="navBadge">—</span>
+        </div>
+        <div class="nav-item" onclick="nav('search-online',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search Online
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <div class="nav-group-label">System</div>
+        <div class="nav-item" onclick="nav('settings',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+        </div>
+    </div>
+
+    <div class="sidebar-bottom">
+        <button class="btn-logout" onclick="logout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+        </button>
+    </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <!-- ── PROFILES ──────────────────── -->
+    <div id="view-profiles" class="view active">
+        <div class="page-hd">
+            <div>
+                <div class="page-title">Profiles</div>
+                <div class="page-desc">Select a profile to view the full personnel file</div>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input class="filter-input" type="text" id="profileFilter" placeholder="Filter by name or role…" oninput="filterGrid()">
+            </div>
+        </div>
+
+        <div class="profile-grid" id="profileGrid">
+            <div class="grid-empty">Loading profiles…</div>
+        </div>
+    </div>
+
+    <!-- ── DETAIL ──────────────────── -->
+    <div id="view-detail" class="view">
+        <button class="back-btn" onclick="backToProfiles()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Profiles
+        </button>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- ── SEARCH ONLINE ──────────────────── -->
+    <div id="view-search-online" class="view">
+        <div class="page-hd">
+            <div>
+                <div class="page-title">Search Online</div>
+                <div class="page-desc">Find real public information about any person across the web</div>
+            </div>
+        </div>
+
+        <div class="search-page-wrap">
+            <div class="search-hero">
+                <div class="search-hero-label">Search Engine</div>
+                <div class="search-hero-title">Find anyone online</div>
+                <div class="search-hero-desc">Type a name below — then open any platform to see live, real results directly from that site.</div>
+                <div class="search-row">
+                    <input class="search-main-input" type="text" id="searchInput" placeholder="e.g. Suramya Pandiya…" autocomplete="off">
+                    <button class="search-main-btn" onclick="doSearch()">Search</button>
+                </div>
+            </div>
+
+            <div class="quick-label">Saved Profiles — Quick Search</div>
+            <div class="quick-chips" id="quickChips"></div>
+
+            <div class="results-section" id="resultsSection" style="display:none">
+                <div class="results-title" id="resultsTitle"></div>
+                <div class="results-grid" id="resultsGrid"></div>
+            </div>
+
+            <div class="empty-search" id="searchEmpty" style="text-align:center;padding:40px;color:var(--text3);font-size:0.82rem;">
+                Enter a name and hit Search to generate links across all major platforms
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SETTINGS ──────────────────── -->
+    <div id="view-settings" class="view">
+        <div class="page-hd">
+            <div>
+                <div class="page-title">Settings</div>
+                <div class="page-desc">App configuration and preferences</div>
+            </div>
+        </div>
+
+        <div class="settings-wrap">
+            <div class="setting-block">
+                <div class="setting-block-title">Profile Data</div>
+                <div class="setting-row">
+                    <span class="setting-row-label">Data file</span>
+                    <span class="setting-row-value" style="font-family:monospace;font-size:0.78rem;color:var(--gold)">Data/profiles.json</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-row-label">Total profiles</span>
+                    <span class="setting-row-value" id="settingCount">—</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-row-label">Status</span>
+                    <span class="setting-tag" id="settingStatus">Loaded</span>
+                </div>
+            </div>
+
+            <div class="setting-block">
+                <div class="setting-block-title">How to add a profile</div>
+                <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+                    <span class="setting-row-label">Open <span style="font-family:monospace;color:var(--gold)">Data/profiles.json</span> and add a new object to the array following the same structure as the existing profiles. Save the file and refresh the page — your profile will appear automatically.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <button class="modal-x" onclick="closeModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+let profiles = [];
+
+// ── NAVIGATION ──────────────────────────
+function nav(id, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('view-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+    if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+}
+
+function logout() { window.location.href = 'index.html'; }
+
+// ── LOAD DATA ──────────────────────────
+async function loadProfiles() {
+    try {
+        const res = await fetch('Data/profiles.json');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        profiles = data.profiles;
+        document.getElementById('navBadge').textContent = profiles.length;
+        document.getElementById('settingCount').textContent = profiles.length;
+        renderGrid(profiles);
+        buildQuickChips();
+    } catch (e) {
+        document.getElementById('profileGrid').innerHTML =
+            '<div class="grid-empty" style="color:#EF4444">Could not load Data/profiles.json</div>';
+    }
+}
+
+// ── PROFILE GRID ──────────────────────────
+function renderGrid(list) {
+    const g = document.getElementById('profileGrid');
+    if (!list.length) { g.innerHTML = '<div class="grid-empty">No profiles found</div>'; return; }
+    g.innerHTML = '';
+    list.forEach((p, i) => {
+        const c = document.createElement('div');
+        c.className = 'profile-card';
+        c.style.animationDelay = (i * 0.04) + 's';
+        c.onclick = () => openDetail(p);
+        c.innerHTML = `
+            <div class="p-avatar">
+                <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/200x200/16161A/C8A951?text=${encodeURIComponent(p.name[0])}'">
+            </div>
+            <div class="p-id">${p.id}</div>
+            <div class="p-name">${p.name}</div>
+            <div class="p-role">${p.title.split('|')[0].trim()}</div>
+            <div class="p-arrow">
+                Open File
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+        `;
+        g.appendChild(c);
+    });
+}
+
+function filterGrid() {
+    const q = document.getElementById('profileFilter').value.toLowerCase();
+    renderGrid(q ? profiles.filter(p => p.name.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)) : profiles);
+}
+
+// ── DETAIL ──────────────────────────
+function openDetail(p) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('view-detail').classList.add('active');
+    renderDetail(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToProfiles() {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-profiles').classList.add('active');
+    document.querySelector('.nav-item').classList.add('active');
+}
+
+function row(k, v) {
+    return `<div class="info-row"><span class="info-k">${k}</span><span class="info-v">${v || '<span style="color:var(--text3)">—</span>'}</span></div>`;
+}
+
+function renderDetail(p) {
+    const c = document.getElementById('detailContent');
+
+    // Social links — detect icon from name
+    const socialIcons = {
+        instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+        twitter: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>`,
+        tiktok: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.78a4.85 4.85 0 01-1.01-.09z"/></svg>`,
+        snapchat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 3 5.5 3 10v1c0 .8-.4 1.5-1 2 0 0 2 1 2 2 0 .5-.3 1.2-.5 1.5.5.3 1 .5 1.5.5 1 0 1.5 1 3 1s2-1 4-1 3 1 3 1c.5 0 1-.2 1.5-.5-.2-.3-.5-1-.5-1.5 0-1 2-2 2-2-.6-.5-1-1.2-1-2v-1c0-4.5-3.5-8-8-8z"/></svg>`,
+        youtube: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>`,
+        default: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
+    };
+
+    function getSvg(iconClass) {
+        const cl = iconClass.toLowerCase();
+        if (cl.includes('instagram')) return socialIcons.instagram;
+        if (cl.includes('twitter')) return socialIcons.twitter;
+        if (cl.includes('tiktok')) return socialIcons.tiktok;
+        if (cl.includes('snapchat')) return socialIcons.snapchat;
+        if (cl.includes('youtube')) return socialIcons.youtube;
+        return socialIcons.default;
+    }
+
+    const socials = (p.socialLinks && p.socialLinks.length)
+        ? p.socialLinks.map(l => `<a href="${l.url}" target="_blank" class="social-btn">${getSvg(l.icon || l.name)} ${l.name}</a>`).join('')
+        : '<span class="no-data">No social links</span>';
+
+    const gallery = (p.gallery && p.gallery.length)
+        ? '<div class="gallery-wrap">' + p.gallery.map(item => {
+            if (item.type === 'image')
+                return `<div class="gal-item" onclick="openModal('${item.src}','image')"><img src="${item.src}" loading="lazy"></div>`;
+            return `<div class="gal-item" onclick="openModal('${item.src}','video')">
+                <video src="${item.src}" muted preload="metadata"></video>
+                <div class="gal-play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            </div>`;
+          }).join('') + '</div>'
+        : '<div class="no-data">No media uploaded yet</div>';
+
+    // Search online section inside profile
+    const enc = encodeURIComponent(p.name);
+    const platforms = [
+        { name:'Google', color:'#4285F4', url:`https://www.google.com/search?q=${enc}` },
+        { name:'Images', color:'#34A853', url:`https://www.google.com/search?q=${enc}&tbm=isch` },
+        { name:'YouTube', color:'#FF0000', url:`https://www.youtube.com/results?search_query=${enc}` },
+        { name:'Instagram', color:'#E1306C', url:`https://www.instagram.com/explore/search/keyword/?q=${enc}` },
+        { name:'Twitter', color:'#1DA1F2', url:`https://twitter.com/search?q=${enc}` },
+        { name:'TikTok', color:'#000000', url:`https://www.tiktok.com/search?q=${enc}` },
+        { name:'Reddit', color:'#FF4500', url:`https://www.reddit.com/search/?q=${enc}` },
+        { name:'Wikipedia', color:'#636466', url:`https://en.wikipedia.org/w/index.php?search=${enc}` },
+    ];
+
+    const searchLinks = platforms.map(pl => `
+        <a href="${pl.url}" target="_blank" class="social-btn" style="background:${pl.color}14;border-color:${pl.color}30;color:${pl.color};">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="${pl.color}"/></svg>
+            ${pl.name}
+        </a>
+    `).join('');
+
+    c.style.opacity = '0';
+    c.innerHTML = `
+        <div class="detail-grid">
+            <div class="detail-left">
+                <div class="photo-card">
+                    <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/600x800/16161A/C8A951?text=${encodeURIComponent(p.name[0])}'">
+                    <div class="photo-overlay">
+                        <div class="photo-name">${p.name}</div>
+                        <div class="photo-sub">${p.id}</div>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        Social Media
+                    </div>
+                    <div class="social-wrap">${socials}</div>
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        Family & Education
+                    </div>
+                    ${row('Parents', p.familyEducation.parents)}
+                    ${row('Siblings', p.familyEducation.siblings)}
+                    ${row('Background', p.familyEducation.background)}
+                    ${row('School', p.familyEducation.school)}
+                    ${row('College', p.familyEducation.college)}
+                    ${row('Qualification', p.familyEducation.qualification)}
+                </div>
+            </div>
+
+            <div class="detail-right">
+                <div style="margin-bottom:2px;">
+                    <div style="font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text);letter-spacing:-0.3px">${p.name}</div>
+                    <div style="font-size:0.78rem;color:var(--text2);margin-top:4px">${p.title}</div>
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Personal Information
+                    </div>
+                    <div class="info-grid-2">
+                        ${row('Full Name', p.personalInfo.fullName)}
+                        ${row('Nick Name', p.personalInfo.nickName)}
+                        ${row('Date of Birth', p.personalInfo.dob)}
+                        ${row('Age', p.personalInfo.age)}
+                        ${row('Birthplace', p.personalInfo.birthplace)}
+                        ${row('Residence', p.personalInfo.residence)}
+                        ${row('Nationality', p.personalInfo.nationality)}
+                        ${row('Religion', p.personalInfo.religion)}
+                        ${row('Zodiac', p.personalInfo.zodiac)}
+                        ${row('Occupation', p.personalInfo.occupation)}
+                    </div>
+                </div>
+
+                <div class="two-boxes">
+                    <div class="box">
+                        <div class="box-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            Physical Stats
+                        </div>
+                        ${row('Height', p.physicalStats.height)}
+                        ${row('Weight', p.physicalStats.weight)}
+                        ${row('Hair', p.physicalStats.hairColor)}
+                        ${row('Eyes', p.physicalStats.eyeColor)}
+                        ${row('Skin', p.physicalStats.skinTone)}
+                        ${row('Measurements', p.physicalStats.measurements)}
+                    </div>
+                    <div class="box">
+                        <div class="box-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            Career
+                        </div>
+                        ${row('Profession', p.career.profession)}
+                        ${row('Content Style', p.career.contentStyle)}
+                        ${row('Internship', p.career.internship)}
+                        ${row('Net Worth', p.career.netWorth)}
+                        ${row('Income Source', p.career.incomeSource)}
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Search "${p.name}" Online
+                    </div>
+                    <div class="social-wrap">${searchLinks}</div>
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        Gallery
+                    </div>
+                    ${gallery}
+                </div>
+
+                <div class="box">
+                    <div class="box-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        Biography
+                    </div>
+                    <div class="bio-text">${p.bio}</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    requestAnimationFrame(() => {
+        c.style.transition = 'opacity 0.35s ease';
+        c.style.opacity = '1';
+    });
+}
+
+// ── SEARCH ONLINE PAGE ──────────────────────────
+function buildQuickChips() {
+    const wrap = document.getElementById('quickChips');
+    wrap.innerHTML = '';
+    profiles.forEach(p => {
+        const chip = document.createElement('button');
+        chip.className = 'quick-chip';
+        chip.innerHTML = `
+            <div class="quick-chip-avatar">
+                <img src="${p.image}" alt="" onerror="this.style.display='none'">
+            </div>
+            ${p.name.split(' ')[0]}
+        `;
+        chip.onclick = () => {
+            document.getElementById('searchInput').value = p.name;
+            doSearch();
+        };
+        wrap.appendChild(chip);
+    });
+}
+
+function doSearch() {
+    const name = document.getElementById('searchInput').value.trim();
+    if (!name) return;
+
+    document.getElementById('searchEmpty').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsTitle').textContent = `Results for "${name}"`;
+
+    const enc = encodeURIComponent(name);
+
+    const platforms = [
+        { name:'Google Search', desc:'Articles, news, websites and general information', color:'#4285F4', emoji:'🔍', url:`https://www.google.com/search?q=${enc}` },
+        { name:'Google Images', desc:'Photos and pictures of this person', color:'#34A853', emoji:'🖼', url:`https://www.google.com/search?q=${enc}&tbm=isch` },
+        { name:'Google News', desc:'Latest news mentions and press coverage', color:'#EA4335', emoji:'📰', url:`https://www.google.com/search?q=${enc}&tbm=nws` },
+        { name:'YouTube', desc:'Videos, interviews, vlogs and short clips', color:'#FF0000', emoji:'▶️', url:`https://www.youtube.com/results?search_query=${enc}` },
+        { name:'Instagram', desc:'Instagram profile, posts and reels', color:'#E1306C', emoji:'📷', url:`https://www.instagram.com/explore/search/keyword/?q=${enc}` },
+        { name:'Twitter / X', desc:'Tweets, mentions and threads', color:'#1DA1F2', emoji:'🐦', url:`https://twitter.com/search?q=${enc}` },
+        { name:'TikTok', desc:'Short videos and trending reels', color:'#69C9D0', emoji:'🎵', url:`https://www.tiktok.com/search?q=${enc}` },
+        { name:'Reddit', desc:'Community posts, discussions and mentions', color:'#FF4500', emoji:'🤖', url:`https://www.reddit.com/search/?q=${enc}` },
+        { name:'Wikipedia', desc:'Encyclopedia biography and career details', color:'#A7A7A7', emoji:'📖', url:`https://en.wikipedia.org/w/index.php?search=${enc}` },
+        { name:'LinkedIn', desc:'Professional profile and work history', color:'#0A66C2', emoji:'💼', url:`https://www.linkedin.com/search/results/all/?keywords=${enc}` },
+    ];
+
+    const grid = document.getElementById('resultsGrid');
+    grid.innerHTML = '';
+    platforms.forEach((pl, i) => {
+        const card = document.createElement('a');
+        card.href = pl.url;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'result-card';
+        card.style.animationDelay = (i * 0.04) + 's';
+        card.innerHTML = `
+            <div class="result-platform">
+                <div class="platform-icon" style="background:${pl.color}18">${pl.emoji}</div>
+                <div class="platform-name">${pl.name}</div>
+            </div>
+            <div class="result-desc">${pl.desc}</div>
+            <div class="result-cta">
+                Open on ${pl.name.split(' ')[0]}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Enter' && document.activeElement.id === 'searchInput') doSearch();
+});
+
+// ── MODAL ──────────────────────────
+function openModal(src, type) {
+    const mc = document.getElementById('modalContent');
+    mc.innerHTML = type === 'image'
+        ? `<img src="${src}" alt="">`
+        : `<video src="${src}" controls autoplay style="max-width:90vw;max-height:85vh;border-radius:10px"></video>`;
+    document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalContent').innerHTML = '';
+}
+
+// ── INIT ──────────────────────────
+loadProfiles();
+</script>
+</body>
+</html>

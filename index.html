@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card System — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --gold: #c9a53b;
+            --bg: #030303;
+            --surface: #090909;
+            --border: #1e1e1e;
+            --text: #fff;
+            --muted: #4a4a4a;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: var(--bg);
+            font-family: 'DM Mono', monospace;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; overflow: hidden; position: relative;
+        }
+        body::before {
+            content:''; position:fixed; top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            width:700px; height:700px;
+            background:radial-gradient(circle,rgba(201,165,59,0.07) 0%,transparent 65%);
+            pointer-events:none;
+        }
+        .dots {
+            position:fixed; inset:0;
+            background-image:radial-gradient(circle,#181818 1px,transparent 1px);
+            background-size:32px 32px;
+            pointer-events:none;
+            animation:dotDrift 25s linear infinite;
+        }
+        @keyframes dotDrift { from{background-position:0 0} to{background-position:32px 32px} }
+
+        .card {
+            position:relative; z-index:10;
+            width:100%; max-width:400px;
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:24px; padding:48px 40px 40px;
+            animation:slideUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes slideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+        .card-top { position:absolute; top:0; left:40px; right:40px; height:2px;
+            background:linear-gradient(90deg,transparent,var(--gold),transparent); border-radius:2px; }
+
+        .brand { text-align:center; margin-bottom:36px; }
+        .brand-icon {
+            width:56px; height:56px; margin:0 auto 14px;
+            background:#0f0f0f; border:1px solid #222; border-radius:14px;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .brand-icon i { font-size:1.3rem; color:var(--gold); }
+        .brand-name { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:8px; color:var(--text); }
+        .brand-desc { font-size:0.58rem; color:var(--muted); letter-spacing:2px; margin-top:6px; }
+
+        .field { margin-bottom:16px; }
+        .field-label { font-size:0.58rem; color:var(--muted); letter-spacing:2px; margin-bottom:8px; display:block; }
+        .field-input {
+            width:100%; background:#0d0d0d; border:1px solid #222; border-radius:12px;
+            padding:13px 16px; color:var(--text); font-family:'DM Mono',monospace;
+            font-size:0.85rem; outline:none; transition:border-color 0.25s,box-shadow 0.25s;
+        }
+        .field-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,165,59,0.07); }
+        .field-input::placeholder { color:#282828; }
+
+        .btn-login {
+            width:100%; margin-top:10px; padding:14px;
+            background:var(--gold); border:none; border-radius:12px;
+            font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:5px;
+            color:#000; cursor:pointer; transition:all 0.25s;
+        }
+        .btn-login:hover { background:#d9b44a; transform:translateY(-2px); box-shadow:0 8px 25px rgba(201,165,59,0.28); }
+        .btn-login:active { transform:translateY(0); }
+        .btn-login.success { background:#2ecc71; letter-spacing:3px; }
+
+        .error {
+            display:none; margin-top:14px; padding:10px 14px;
+            background:rgba(255,60,60,0.07); border:1px solid rgba(255,60,60,0.2);
+            border-radius:10px; font-size:0.62rem; color:#ff5555; letter-spacing:1px;
+        }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .footer-note { text-align:center; margin-top:28px; font-size:0.52rem; color:#222; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <div class="dots"></div>
+    <div class="card">
+        <div class="card-top"></div>
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-id-badge"></i></div>
+            <div class="brand-name">CARD SYSTEM</div>
+            <div class="brand-desc">PERSONNEL INTELLIGENCE REGISTRY</div>
+        </div>
+        <div class="field">
+            <label class="field-label">USERNAME</label>
+            <input class="field-input" type="text" id="username" placeholder="Enter your username" autocomplete="off">
+        </div>
+        <div class="field">
+            <label class="field-label">PASSWORD</label>
+            <input class="field-input" type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button class="btn-login" id="loginBtn" onclick="login()">ACCESS SYSTEM</button>
+        <div class="error" id="errorMsg"><i class="fas fa-triangle-exclamation"></i>&nbsp; Incorrect username or password</div>
+        <div class="footer-note">AUTHORIZED ACCESS ONLY</div>
+    </div>
+    <script>
+        const U="admin", P="1234";
+        document.addEventListener('keydown',e=>{ if(e.key==='Enter') login(); });
+        function login(){
+            const u=document.getElementById('username').value.trim();
+            const p=document.getElementById('password').value;
+            const err=document.getElementById('errorMsg');
+            const btn=document.getElementById('loginBtn');
+            if(u===U&&p===P){
+                btn.classList.add('success'); btn.textContent='WELCOME...';
+                setTimeout(()=>window.location.href='dashboard.html',700);
+            } else {
+                err.style.display='block';
+                err.style.animation='none';
+                requestAnimationFrame(()=>requestAnimationFrame(()=>err.style.animation='shake 0.35s ease'));
+            }
+        }
+    </script>
+</body>
+</html>
