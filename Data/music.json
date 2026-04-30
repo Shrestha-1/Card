@@ -1,0 +1,126 @@
+{
+  "songs": [
+    {
+      "id": "SNG-001",
+      "title": "Tame Impala, JENNIE - Dracula (JENNIE Remix)",
+      "artist": "Tame Impala, JENNIE",
+      "year": "2024",
+      "coverArt": "https://img.youtube.com/vi/UvhkjVBBKiU/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UvhkjVBBKiU"
+    },
+    {
+      "id": "SNG-002",
+      "title": "RAID 2: NASHA (Song)",
+      "artist": "Jasmine Sandlas, Sachet Tandon, Divya Kumar",
+      "featured": "Tamannaah Bhatia, Ajay Devgn, Riteish Deshpande",
+      "album": "Raid 2",
+      "year": "2024",
+      "genre": "Bollywood, Dance, Party",
+      "coverArt": "https://img.youtube.com/vi/QPSAjqjylTc/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QPSAjqjylTc"
+    },
+    {
+      "id": "SNG-003",
+      "title": "Aaj Ki Raat - Full Song",
+      "artist": "Madhubanti Bagchi, Divya Kumar, Sachin-Jigar",
+      "featured": "Tamannaah Bhatia, Rajkummar Rao",
+      "album": "Stree 2",
+      "year": "2024",
+      "genre": "Bollywood, Dance, Party",
+      "coverArt": "https://img.youtube.com/vi/hxMNYkLN7tI/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hxMNYkLN7tI"
+    },
+    {
+      "id": "SNG-004",
+      "title": "Shararat",
+      "artist": "Shashwat Sachdev, Madhubanti Bagchi, Jasmine Sandlas",
+      "album": "Dhurandhar",
+      "year": "2025",
+      "genre": "Bollywood, Electronic, Party",
+      "coverArt": "https://img.youtube.com/vi/YyepU5ztLf4/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YyepU5ztLf4"
+    },
+    {
+      "id": "SNG-005",
+      "title": "Achacho - Video Song",
+      "artist": "Hiphop Tamizha",
+      "featured": "Tamannaah, Raashii Khanna",
+      "album": "Aranmanai 4",
+      "year": "2024",
+      "genre": "Tamil, Dance, Kuthu",
+      "coverArt": "https://img.youtube.com/vi/ijBxe70sd8M/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ijBxe70sd8M"
+    },
+    {
+      "id": "SNG-006",
+      "title": "Sheila Ki Jawani - Full Song",
+      "artist": "Sunidhi Chauhan, Vishal Dadlani",
+      "featured": "Katrina Kaif",
+      "album": "Tees Maar Khan",
+      "year": "2011",
+      "genre": "Bollywood, Item Song, Dance",
+      "coverArt": "https://img.youtube.com/vi/ZTmF2v59CtI/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZTmF2v59CtI"
+    },
+    {
+      "id": "SNG-007",
+      "title": "Jala Jala Hai",
+      "artist": "Jakes Bejoy",
+      "album": "King of Kotha",
+      "year": "2023",
+      "genre": "Malayalam, Mass, Dance",
+      "coverArt": "https://img.youtube.com/vi/B7KmVIC93fE/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=B7KmVIC93fE"
+    },
+    {
+      "id": "SNG-008",
+      "title": "Adhi Dha Surprisu",
+      "artist": "G. V. Prakash",
+      "album": "Robinhood",
+      "year": "2025",
+      "genre": "Telugu, Dance, Party",
+      "coverArt": "https://img.youtube.com/vi/rlMtaSs7wfs/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rlMtaSs7wfs"
+    },
+    {
+      "id": "SNG-009",
+      "title": "Motha",
+      "artist": "Yuvan Shankar Raja",
+      "album": "Gangs of Godavari",
+      "year": "2024",
+      "genre": "Telugu, Mass, Folk",
+      "coverArt": "https://img.youtube.com/vi/VzvqVR0NqRY/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VzvqVR0NqRY"
+    },
+    {
+      "id": "SNG-010",
+      "title": "Shruti Hassan's Rocking Performance",
+      "artist": "Shruti Haasan",
+      "event": "Globtrotter Event, Varanasi",
+      "year": "2025",
+      "genre": "Live Performance",
+      "coverArt": "https://img.youtube.com/vi/tA0KuldAfMU/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tA0KuldAfMU"
+    },
+    {
+      "id": "SNG-011",
+      "title": "Madamiyan",
+      "artist": "Mamta Sharma, Mika Singh",
+      "album": "Tevar",
+      "year": "2025",
+      "genre": "Bollywood, Dance, Party",
+      "coverArt": "https://img.youtube.com/vi/UQ9v_4LaMRw/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UQ9v_4LaMRw"
+    },
+    {
+      "id": "SNG-012",
+      "title": "Dil Dhadke - Growth Song",
+      "artist": "Sunny M.R., Krishna Tejasvi, Krishna Kanth",
+      "album": "Om Bheem Bush",
+      "year": "2024",
+      "genre": "Telugu, Inspirational",
+      "coverArt": "https://img.youtube.com/vi/qVoSRtiZWCE/hqdefault.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qVoSRtiZWCE"
+    }
+  ]
+}
